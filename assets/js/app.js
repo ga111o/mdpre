@@ -1510,9 +1510,7 @@ class GitHubMarkdownPresenter {
         const dropdown = document.getElementById('settings-dropdown');
         if (dropdown.classList.contains('hidden')) {
             // Update dropdown values with current settings
-            document.getElementById('heading-font-dropdown').value = this.settings.headingFont;
-            document.getElementById('body-font-dropdown').value = this.settings.bodyFont;
-            document.getElementById('code-font-dropdown').value = this.settings.codeFont;
+            this.updateSettingsUI();
             dropdown.classList.remove('hidden');
         } else {
             dropdown.classList.add('hidden');
@@ -1630,6 +1628,26 @@ class GitHubMarkdownPresenter {
             this.settings = { ...this.settings, ...JSON.parse(saved) };
         }
         this.applySettings();
+        
+        // Update UI dropdowns with loaded settings
+        this.updateSettingsUI();
+    }
+
+    updateSettingsUI() {
+        // Update dropdown values with current settings
+        const headingDropdown = document.getElementById('heading-font-dropdown');
+        const bodyDropdown = document.getElementById('body-font-dropdown');
+        const codeDropdown = document.getElementById('code-font-dropdown');
+        
+        if (headingDropdown) {
+            headingDropdown.value = this.settings.headingFont;
+        }
+        if (bodyDropdown) {
+            bodyDropdown.value = this.settings.bodyFont;
+        }
+        if (codeDropdown) {
+            codeDropdown.value = this.settings.codeFont;
+        }
     }
 
     resetFontSettings() {
@@ -1639,11 +1657,7 @@ class GitHubMarkdownPresenter {
         this.settings.codeFont = 'd2coding';
         
         // Update UI
-        if (!document.getElementById('settings-dropdown').classList.contains('hidden')) {
-            document.getElementById('heading-font-dropdown').value = this.settings.headingFont;
-            document.getElementById('body-font-dropdown').value = this.settings.bodyFont;
-            document.getElementById('code-font-dropdown').value = this.settings.codeFont;
-        }
+        this.updateSettingsUI();
         
         // Apply and save settings
         this.applySettings();
